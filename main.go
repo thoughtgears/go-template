@@ -1,15 +1,15 @@
 package main
 
 import (
+	"github.com/thoughtgears/go-template/internal/config"
+	"github.com/thoughtgears/go-template/internal/router"
+
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
-	"github.com/thoughtgears/myFreeCourse/internal/config"
-	"github.com/thoughtgears/myFreeCourse/internal/router"
-
 	"github.com/rs/zerolog/log"
 )
 
-var cfg *config.Config
+var cfg config.Config
 
 func init() {
 	envconfig.MustProcess("", &cfg)
@@ -20,6 +20,6 @@ func init() {
 }
 
 func main() {
-	r := router.NewRouter(cfg)
+	r := router.NewRouter(&cfg)
 	log.Fatal().Err(r.Run()).Msg("Failed to start the server")
 }

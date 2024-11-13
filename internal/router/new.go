@@ -3,8 +3,8 @@ package router
 import (
 	"fmt"
 
-	"github.com/thoughtgears/myFreeCourse/internal/config"
-	"github.com/thoughtgears/myFreeCourse/internal/router/middleware"
+	"github.com/thoughtgears/go-template/internal/config"
+	"github.com/thoughtgears/go-template/internal/router/middleware"
 
 	"github.com/gin-gonic/gin"
 )

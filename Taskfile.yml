@@ -16,7 +16,6 @@ vars:
     sh: git rev-parse HEAD
   GO_VERSION:
     sh: go version | awk '{ print $3 }' | sed s/go//
-  DOCKER_REPO: $DOCKER_REPOSITORY
 
 tasks:
   default:
