@@ -1,0 +1,41 @@
+version: '3'
+
+dotenv: ['.env', '{{.ENV}}/.env.', '{{.HOME}}/.env']
+
+# Dynamic variables for the task runners
+vars:
+  GIT_COMMIT:
+    sh: git log -n 1 --format=%h
+  GIT_REPO:
+    sh: git config --get remote.origin.url | sed -e 's#^.*:##' -e 's#.git$##' -e 's#//gh.com/*##'
+  GIT_REPO_NAME:
+    sh: echo {{.GIT_REPO}} | sed -e 's#^.*/##'
+  GIT_OWNER:
+    sh: echo {{.GIT_REPO}} | sed -e 's#/.*$##'
+  GIT_SHA:
+    sh: git rev-parse HEAD
+  GO_VERSION:
+    sh: go version | awk '{ print $3 }' | sed s/go//
+  DOCKER_REPO: $DOCKER_REPOSITORY
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  dev:
+    desc: 'Run the application locally | Runs go run to start the application'
+    cmds:
+      - go mod tidy
+      - go run main.go
+
+  test:
+    desc: 'Run tests | All unit tests that will test logical code in the application'
+    cmds:
+      - go mod tidy
+      - go test -v ./...
+
+  lint:
+    desc: 'Run linter | Runs the golangci-lint linter with all the default rules'
+    cmds:
+      - golangci-lint run
